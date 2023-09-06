@@ -1,1 +1,20 @@
-<p>graph works!</p>
+<div class="row">
+  <div class="col-6">
+    <app-donut [title]="'Ventas'"></app-donut>
+  </div>
+  <div class="col-6">
+    <app-donut [title]="'Compras'"
+               [labels]="labels"
+               [data]="data">
+    </app-donut>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-6">
+    <app-donut [title]="'Cambios'"></app-donut>
+  </div>
+  <div class="col-6">
+    <app-donut [title]="'Transacciones'"></app-donut>
+  </div>
+</div>

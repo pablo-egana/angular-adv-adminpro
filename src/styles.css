@@ -15,3 +15,8 @@
   justify-content: center;
   text-align: center;
 }
+
+.avatar-image {
+  height: 155px;
+  width: 155px;
+}

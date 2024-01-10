@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { RegisterForm } from '../interfaces/register-form.interface';
 import { LoginForm } from '../interfaces/login-form.interface';
+import { User } from '../models/user.model';
 import { environment } from '../../environments/environment';
 import { tap, map, Observable, catchError, of } from 'rxjs';
 
@@ -14,21 +15,32 @@ declare const google: any;
 })
 export class UserService {
 
+  public user!: User;
+
   constructor(private http: HttpClient,
     private router: Router,
     private ngZone: NgZone) {}
 
+  get token(): string {
+    return localStorage.getItem('token') || '';
+  }
+
+  get uid(): string {
+    return this.user.uid || '';
+  }
+  
   validateToken(): Observable<boolean> {
 
-    const token = localStorage.getItem('token') || '';
     return this.http.get(`${ baseUrl }/login/renew`, {
       headers: {
-        'x-token': token
+        'x-token': this.token
       }
-    }).pipe(tap((resp: any) => {
+    }).pipe(map((resp: any) => {
+      const { name, email, image = '', google, role, uid } = resp.user;
+      this.user = new User(name, email, '', image, google, role, uid);
       localStorage.setItem('token', resp.token);
+      return true;
     }),
-    map(resp => true),
     catchError(error => of(false))
     );
 
@@ -36,14 +48,25 @@ export class UserService {
 
   createUser(formData: RegisterForm) {
     
-    const token = localStorage.getItem('token') || '';
     return this.http.post(`${ baseUrl }/users`, formData, {
       headers: {
-        'x-token': token
+        'x-token': this.token
       }
     }).pipe(tap((resp: any) => {
         localStorage.setItem('token', resp.token);
     }));
+
+  }
+
+  updateUserProfile(data: { name: string, email: string, role: string }) {
+    
+    data = { ...data, role: this.user.role || '' };
+
+    return this.http.put(`${ baseUrl }/users/${ this.uid }`, data, {
+      headers: {
+        'x-token': this.token
+      }
+    });
 
   }
 

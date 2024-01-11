@@ -16,11 +16,11 @@ export class User {
 
   get getImageUrl() {
     
-    if (this.image?.includes('https')) {
+    if (!this.image) {
+      return `${ baseUrl }/upload/users/no-image`;
+    } else if (this.image?.includes('https')) {
       return this.image;
-    }
-
-    if (this.image) {
+    } else if (this.image) {
       return `${ baseUrl }/upload/users/${ this.image }`;
     } else {
       return `${ baseUrl }/upload/users/no-image`;

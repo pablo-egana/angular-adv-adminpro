@@ -75,6 +75,7 @@ export class ProfileComponent implements OnInit {
         console.log(error);
         Swal.fire('Error', 'No se pudo subir la imagen', 'error');
       });
+      
   }
 
 }

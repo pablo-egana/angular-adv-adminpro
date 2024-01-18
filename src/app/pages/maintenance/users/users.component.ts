@@ -58,6 +58,7 @@ export class UsersComponent implements OnInit, OnDestroy {
       this.from -= value;
     }
     this.showUsers();
+    
   }
 
   search(term: string) {
@@ -67,7 +68,7 @@ export class UsersComponent implements OnInit, OnDestroy {
     }
 
     this.searchesService.search('users', term)
-      .subscribe(results => {
+      .subscribe((results: any[]) => {
         this.users = results;
       });
     

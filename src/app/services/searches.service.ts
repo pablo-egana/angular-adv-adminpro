@@ -1,6 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { User } from '../models/user.model';
+import { Hospital } from '../models/hospital.model';
+import { Doctor } from '../models/doctor.model';
 import { environment } from '../../environments/environment';
 import { map } from 'rxjs';
 
@@ -31,6 +33,18 @@ export class SearchesService {
       new User(user.name, user.email, '', user.image, user.google, user.role, user.uid));
 
   }
+
+  private transformHospitals(results: any[]): Hospital[] {
+    
+    return results;
+
+  }
+
+  private transformDoctors(results: any[]): Doctor[] {
+    
+    return results;
+
+  }
   
   search(type: 'users' | 'doctors' | 'hospitals', term: string = '') {
 
@@ -41,12 +55,10 @@ export class SearchesService {
         switch (type) {
           case 'users':
             return this.transformUsers(resp.results);
-          /*
-          case 'doctors':
-            return this.transformUsers(resp);
           case 'hospitals':
-            return this.transformUsers(resp);
-          */
+            return this.transformHospitals(resp.results);
+          case 'doctors':
+            return this.transformDoctors(resp.results);
           default:
             return [];
         }

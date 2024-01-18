@@ -70,7 +70,7 @@ export class ProfileComponent implements OnInit {
     this.fileUploadService.updatePhoto(this.uploadImage, 'users', this.user.uid || '')
       .then(image => {
         this.user.image = image;
-        Swal.fire('Guardado', 'Imagen de usuario actualizada', 'success');
+        Swal.fire('Guardado', 'Imagen actualizada', 'success');
       }).catch(error => {
         console.log(error);
         Swal.fire('Error', 'No se pudo subir la imagen', 'error');

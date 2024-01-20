@@ -67,4 +67,11 @@ export class SearchesService {
     
   }
 
+  globalSearch(term: string) {
+
+    const url = `${ baseUrl }/all/${ term }`;
+    return this.http.get<any[]>(url, this.headers);
+
+  }
+
 }

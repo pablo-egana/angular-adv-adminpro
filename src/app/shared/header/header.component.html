@@ -20,7 +20,8 @@
         <!-- dark Logo text -->
         <img src="./assets/images/logo-text.png" alt="homepage" class="dark-logo" />
         <!-- Light Logo text -->    
-        <img src="./assets/images/logo-light-text.png" class="light-logo" alt="homepage" /></span> </a>
+        <img src="./assets/images/logo-light-text.png" class="light-logo" alt="homepage" /></span>
+      </a>
     </div>
       <!-- ============================================================== -->
       <!-- End Logo -->
@@ -35,6 +36,10 @@
           <li class="nav-item"> <a class="nav-link sidebartoggler hidden-sm-down waves-effect waves-dark" href="javascript:void(0)"><i class="ti-menu"></i></a> </li>
           <li class="nav-item hidden-sm-down"></li>
         </ul>
+        <form class="app-search" (submit)="showSearch(txtTerm.value)">
+          <input type="text" class="form-control search-text" #txtTerm
+            placeholder="Buscar médico, hospital o usuario">
+        </form>
         <!-- ============================================================== -->
         <!-- User profile and search -->
         <!-- ============================================================== -->
@@ -42,11 +47,11 @@
           <!-- ============================================================== -->
           <!-- Search -->
           <!-- ============================================================== -->
-          <li class="nav-item hidden-xs-down search-box"> <a class="nav-link hidden-sm-down waves-effect waves-dark" href="javascript:void(0)"><i class="ti-search"></i></a>
-              <form class="app-search">
-                <input type="text" class="form-control" placeholder="Search & enter">
-                <a class="srh-btn"><i class="ti-close"></i></a>
-              </form>
+          <li class="nav-item hidden-xs-down search-box">
+            <a class="nav-link hidden-sm-down waves-effect waves-dark" 
+              href="javascript:void(0)">
+              <i class="ti-search"></i>
+            </a>
           </li>
           <!-- ============================================================== -->
           <!-- Comment -->

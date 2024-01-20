@@ -18,8 +18,7 @@ export class UserService {
 
   public user!: User;
 
-  constructor(private http: HttpClient,
-    private router: Router,
+  constructor(private http: HttpClient, private router: Router,
     private ngZone: NgZone) {}
 
   get token(): string {
@@ -37,25 +36,30 @@ export class UserService {
       }
     };
   }
+
+  get role(): 'ADMIN_ROLE' | 'USER_ROLE' {
+
+    return this.user.role || 'USER_ROLE';
+
+  }
   
   validateToken(): Observable<boolean> {
 
     return this.http.get(`${ baseUrl }/login/renew`, this.headers).pipe(map((resp: any) => {
       const { name, email, image = '', google, role, uid } = resp.user;
       this.user = new User(name, email, '', image, google, role, uid);
-      localStorage.setItem('token', resp.token);
+      this.saveLocalStorage(resp.token, resp.menu);
       return true;
-    }),
-    catchError(error => of(false))
-    );
+    }), catchError(error => of(false)));
 
   }
 
   createUser(formData: RegisterForm) {
     
-    return this.http.post(`${ baseUrl }/users`, formData, this.headers).pipe(tap((resp: any) => {
-        localStorage.setItem('token', resp.token);
-    }));
+    return this.http.post(`${ baseUrl }/users`, formData, this.headers)
+      .pipe(tap((resp: any) => {
+        this.saveLocalStorage(resp.token, resp.menu);
+      }));
 
   }
 
@@ -70,7 +74,7 @@ export class UserService {
 
     return this.http.post(`${ baseUrl }/login`, formData)
       .pipe(tap((resp: any) => {
-        localStorage.setItem('token', resp.token);
+        this.saveLocalStorage(resp.token, resp.menu);
       }));
 
   }
@@ -79,7 +83,7 @@ export class UserService {
 
     return this.http.post(`${ baseUrl }/login/google`, { token })
       .pipe(tap((resp: any) => {
-        localStorage.setItem('token', resp.token);
+        this.saveLocalStorage(resp.token, resp.menu);
       }));
 
   }
@@ -92,6 +96,7 @@ export class UserService {
         this.router.navigateByUrl('/login');
         localStorage.removeItem('token');
         localStorage.removeItem('email');
+        localStorage.removeItem('menu');
       });
     });
 
@@ -122,6 +127,13 @@ export class UserService {
   saveUser(user: User) {
 
     return this.http.put(`${ baseUrl }/users/${ user.uid }`, user, this.headers);
+
+  }
+
+  saveLocalStorage(token: string, menu: any) {
+
+    localStorage.setItem('token', token);
+    localStorage.setItem('menu', JSON.stringify(menu));
 
   }
 

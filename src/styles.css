@@ -21,6 +21,10 @@
   width: 155px;
 }
 
+.w75 {
+  width: 75px;
+}
+
 .w100 {
   width: 100px;
 }
@@ -55,4 +59,8 @@
 
 .hidden {
   display: none;
+}
+
+.search-text {
+  width: 600px;
 }
